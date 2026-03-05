@@ -128,8 +128,9 @@ func extractImage(item rssItem) string {
 
 		image = strings.TrimSpace(image)
 
-		image = strings.ReplaceAll(image, "&amp;", "&")
-		image = strings.ReplaceAll(image, "&amp;amp;", "&")
+		for strings.Contains(image, "&amp;") {
+			image = strings.ReplaceAll(image, "&amp;", "&")
+		}
 
 		// handle protocol-less URLs
 		if strings.HasPrefix(image, "//") {
