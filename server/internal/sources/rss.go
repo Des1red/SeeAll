@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"net/http"
 	"regexp"
+	"strings"
 	"time"
 
 	"SeeAll/internal/model"
@@ -13,28 +14,30 @@ var httpClient = &http.Client{
 	Timeout: 8 * time.Second,
 }
 
+type rssItem struct {
+	Title          string `xml:"title"`
+	Link           string `xml:"link"`
+	Guid           string `xml:"guid"`
+	PubDate        string `xml:"pubDate"`
+	Description    string `xml:"description"`
+	ContentEncoded string `xml:"content:encoded"`
+
+	MediaContent struct {
+		URL string `xml:"url,attr"`
+	} `xml:"media:content"`
+
+	MediaThumbnail struct {
+		URL string `xml:"url,attr"`
+	} `xml:"media:thumbnail"`
+
+	Enclosure struct {
+		URL string `xml:"url,attr"`
+	} `xml:"enclosure"`
+}
+
 type genericRSS struct {
 	Channel struct {
-		Items []struct {
-			Title          string `xml:"title"`
-			Link           string `xml:"link"`
-			Guid           string `xml:"guid"`
-			PubDate        string `xml:"pubDate"`
-			Description    string `xml:"description"`
-			ContentEncoded string `xml:"content:encoded"`
-
-			MediaContent struct {
-				URL string `xml:"url,attr"`
-			} `xml:"media:content"`
-
-			MediaThumbnail struct {
-				URL string `xml:"url,attr"`
-			} `xml:"media:thumbnail"`
-
-			Enclosure struct {
-				URL string `xml:"url,attr"`
-			} `xml:"enclosure"`
-		} `xml:"item"`
+		Items []rssItem `xml:"item"`
 	} `xml:"channel"`
 }
 
@@ -77,28 +80,7 @@ func FetchRSS(url string, source string, max int) ([]model.Post, error) {
 			id = item.Link
 		}
 
-		image := item.MediaContent.URL
-
-		if image == "" {
-			image = item.MediaThumbnail.URL
-		}
-
-		if image == "" {
-			image = item.Enclosure.URL
-		}
-
-		if image == "" && item.Description != "" {
-			match := imgRegex.FindStringSubmatch(item.Description)
-			if len(match) > 1 {
-				image = match[1]
-			}
-		}
-		if image == "" && item.ContentEncoded != "" {
-			match := imgRegex.FindStringSubmatch(item.ContentEncoded)
-			if len(match) > 1 {
-				image = match[1]
-			}
-		}
+		image := extractImage(item)
 
 		post := NormalizeNews(
 			id,
@@ -114,4 +96,45 @@ func FetchRSS(url string, source string, max int) ([]model.Post, error) {
 	}
 
 	return posts, nil
+}
+
+func extractImage(item rssItem) string {
+
+	image := item.MediaContent.URL
+
+	if image == "" {
+		image = item.MediaThumbnail.URL
+	}
+
+	if image == "" {
+		image = item.Enclosure.URL
+	}
+
+	if image == "" && item.Description != "" {
+		match := imgRegex.FindStringSubmatch(item.Description)
+		if len(match) > 1 {
+			image = match[1]
+		}
+	}
+
+	if image == "" && item.ContentEncoded != "" {
+		match := imgRegex.FindStringSubmatch(item.ContentEncoded)
+		if len(match) > 1 {
+			image = match[1]
+		}
+	}
+
+	if image != "" {
+
+		image = strings.TrimSpace(image)
+
+		if strings.HasPrefix(image, "//") {
+			image = "https:" + image
+		}
+
+		image = strings.ReplaceAll(image, "&amp;", "&")
+		image = strings.ReplaceAll(image, "&amp;amp;", "&")
+	}
+
+	return image
 }
