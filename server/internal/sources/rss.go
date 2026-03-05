@@ -3,6 +3,7 @@ package sources
 import (
 	"encoding/xml"
 	"net/http"
+	"regexp"
 	"time"
 
 	"SeeAll/internal/model"
@@ -15,10 +16,12 @@ var httpClient = &http.Client{
 type genericRSS struct {
 	Channel struct {
 		Items []struct {
-			Title   string `xml:"title"`
-			Link    string `xml:"link"`
-			Guid    string `xml:"guid"`
-			PubDate string `xml:"pubDate"`
+			Title          string `xml:"title"`
+			Link           string `xml:"link"`
+			Guid           string `xml:"guid"`
+			PubDate        string `xml:"pubDate"`
+			Description    string `xml:"description"`
+			ContentEncoded string `xml:"content:encoded"`
 
 			MediaContent struct {
 				URL string `xml:"url,attr"`
@@ -34,6 +37,8 @@ type genericRSS struct {
 		} `xml:"item"`
 	} `xml:"channel"`
 }
+
+var imgRegex = regexp.MustCompile(`src="([^"]+)"`)
 
 func FetchRSS(url string, source string, max int) ([]model.Post, error) {
 
@@ -80,6 +85,19 @@ func FetchRSS(url string, source string, max int) ([]model.Post, error) {
 
 		if image == "" {
 			image = item.Enclosure.URL
+		}
+
+		if image == "" && item.Description != "" {
+			match := imgRegex.FindStringSubmatch(item.Description)
+			if len(match) > 1 {
+				image = match[1]
+			}
+		}
+		if image == "" && item.ContentEncoded != "" {
+			match := imgRegex.FindStringSubmatch(item.ContentEncoded)
+			if len(match) > 1 {
+				image = match[1]
+			}
 		}
 
 		post := NormalizeNews(

@@ -9,11 +9,16 @@ import (
 
 type jsonRSS struct {
 	Items []struct {
-		GUID      string `json:"guid"`
-		Title     string `json:"title"`
-		Link      string `json:"link"`
-		PubDate   string `json:"pubDate"`
+		GUID    string `json:"guid"`
+		Title   string `json:"title"`
+		Link    string `json:"link"`
+		PubDate string `json:"pubDate"`
+
 		Thumbnail string `json:"thumbnail"`
+
+		Enclosure struct {
+			Link string `json:"link"`
+		} `json:"enclosure"`
 	} `json:"items"`
 }
 
@@ -36,11 +41,22 @@ func FetchJSONRSS(url string, source string, max int) ([]model.Post, error) {
 
 		t, _ := time.Parse(time.RFC1123Z, item.PubDate)
 
+		image := item.Thumbnail
+
+		if image == "" {
+			image = item.Enclosure.Link
+		}
+
+		id := item.GUID
+		if id == "" {
+			id = item.Link
+		}
+
 		post := model.Post{
-			ID:     item.GUID,
+			ID:     id,
 			Title:  item.Title,
 			URL:    item.Link,
-			Image:  item.Thumbnail,
+			Image:  image,
 			Source: source,
 			Time:   t.Unix(),
 		}
