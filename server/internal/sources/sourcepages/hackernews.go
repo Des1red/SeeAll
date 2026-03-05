@@ -74,6 +74,10 @@ func fetchHN() ([]model.Post, error) {
 			}
 			post := sources.NormalizeHN(item.ID, item.Title, item.URL, item.Time, item.Score)
 
+			if post.URL != "" && post.Image == "" {
+				post.Image = sources.FetchOGImage(post.URL)
+			}
+
 			if post.Title == "" || post.Time == 0 {
 				return
 			}
