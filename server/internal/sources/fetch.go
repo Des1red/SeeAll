@@ -1,6 +1,7 @@
 package sources
 
 import (
+	"sort"
 	"sync"
 
 	"SeeAll/internal/model"
@@ -42,6 +43,10 @@ func FetchByType(t string) ([]model.Post, error) {
 	for posts := range resultsChan {
 		results = append(results, posts...)
 	}
+
+	sort.Slice(results, func(i, j int) bool {
+		return results[i].Time > results[j].Time
+	})
 
 	return results, nil
 }

@@ -1,10 +1,11 @@
 import { getRoutes } from "../state.js";
 import { el } from "./dom.js";
-import { iconLive, iconNews } from "./icons.js";
+import { iconLive, iconNews, iconGreece } from "./icons.js";
 
 const ROUTE_ICONS = {
   live: iconLive,
-  daily: iconNews
+  daily: iconNews,
+  greece: iconGreece
 };
 
 export function renderSidebar() {
