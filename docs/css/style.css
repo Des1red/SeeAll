@@ -158,20 +158,32 @@ background: linear-gradient(
 #sidebar {
   position: fixed;
   top: 0;
-  left: -150px;
+  left: -170px;
 
   width: 170px;
   height: 100vh;
 
   background: #0f0f0f;
-
   padding-top: 20px;
 
   border-right: 1px solid #1f1f1f;
 
   transition: left 0.25s ease;
+  z-index: 100;
 }
+#sidebar-overlay {
+  position: fixed;
+  inset: 0;
 
+  background: rgba(0,0,0,0.25);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.2s ease;
+
+  z-index: 50;
+}
 #sidebar:hover {
   left: 0;
 }
@@ -585,7 +597,7 @@ body {
 }
 
 /* mobile */
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
 
   #sidebar:hover {
     left: 0;
