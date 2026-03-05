@@ -39,7 +39,7 @@ func Start(addr string) {
 
 	log.Println("server running on", addr)
 
-	err := http.ListenAndServe(addr, mux)
+	err := http.ListenAndServe(addr, enableCORS(mux))
 	if err != nil {
 		log.Fatal(err)
 	}
