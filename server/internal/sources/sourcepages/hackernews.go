@@ -2,7 +2,9 @@ package sourcepages
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strconv"
 	"sync"
 
 	"SeeAll/internal/model"
@@ -33,7 +35,12 @@ func fetchHN() ([]model.Post, error) {
 	defer resp.Body.Close()
 
 	var ids []int
-	json.NewDecoder(resp.Body).Decode(&ids)
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("hn topstories status %d", resp.StatusCode)
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&ids); err != nil {
+		return nil, err
+	}
 
 	if len(ids) > HN_MAX {
 		ids = ids[:HN_MAX]
@@ -54,7 +61,7 @@ func fetchHN() ([]model.Post, error) {
 			defer wg.Done()
 			defer func() { <-sem }()
 
-			resp, err := http.Get(HN_ITEM + string(rune(id)) + ".json")
+			resp, err := http.Get(HN_ITEM + strconv.Itoa(id) + ".json")
 			if err != nil {
 				return
 			}
@@ -65,9 +72,11 @@ func fetchHN() ([]model.Post, error) {
 			if err != nil {
 				return
 			}
-
 			post := sources.NormalizeHN(item.ID, item.Title, item.URL, item.Time, item.Score)
 
+			if post.Title == "" || post.Time == 0 {
+				return
+			}
 			mu.Lock()
 			posts = append(posts, post)
 			mu.Unlock()
