@@ -3,6 +3,7 @@ package server
 import (
 	"log"
 	"net/http"
+	"strings"
 
 	"SeeAll/internal/handlers"
 )
@@ -12,7 +13,7 @@ func enableCORS(next http.Handler) http.Handler {
 
 		origin := r.Header.Get("Origin")
 
-		if origin == "https://des1red.github.io" {
+		if strings.HasPrefix(origin, "https://des1red.github.io") {
 			w.Header().Set("Access-Control-Allow-Origin", origin)
 			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
