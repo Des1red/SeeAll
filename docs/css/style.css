@@ -597,7 +597,7 @@ body {
 }
 
 /* mobile */
-@media (hover: hover) and (pointer: fine) {
+@media (hover: hover) {
 
   #sidebar:hover {
     left: 0;
