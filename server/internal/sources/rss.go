@@ -128,18 +128,17 @@ func extractImage(item rssItem) string {
 
 		image = strings.TrimSpace(image)
 
-		for strings.Contains(image, "&amp;") {
-			image = strings.ReplaceAll(image, "&amp;", "&")
-		}
+		// decode HTML entities like &amp;
+		image = strings.ReplaceAll(image, "&amp;", "&")
 
-		// handle protocol-less URLs
+		// protocol-less URLs
 		if strings.HasPrefix(image, "//") {
 			image = "https:" + image
 		}
 
-		// handle relative URLs (like reddit preview images)
-		if !strings.HasPrefix(image, "http") {
-			image = "https://external-preview.redd.it/" + image
+		// if still not absolute → ignore it
+		if !strings.HasPrefix(image, "http://") && !strings.HasPrefix(image, "https://") {
+			image = ""
 		}
 	}
 
