@@ -19,6 +19,18 @@ type genericRSS struct {
 			Link    string `xml:"link"`
 			Guid    string `xml:"guid"`
 			PubDate string `xml:"pubDate"`
+
+			MediaContent struct {
+				URL string `xml:"url,attr"`
+			} `xml:"media:content"`
+
+			MediaThumbnail struct {
+				URL string `xml:"url,attr"`
+			} `xml:"media:thumbnail"`
+
+			Enclosure struct {
+				URL string `xml:"url,attr"`
+			} `xml:"enclosure"`
 		} `xml:"item"`
 	} `xml:"channel"`
 }
@@ -60,13 +72,27 @@ func FetchRSS(url string, source string, max int) ([]model.Post, error) {
 			id = item.Link
 		}
 
-		posts = append(posts, NormalizeNews(
+		image := item.MediaContent.URL
+
+		if image == "" {
+			image = item.MediaThumbnail.URL
+		}
+
+		if image == "" {
+			image = item.Enclosure.URL
+		}
+
+		post := NormalizeNews(
 			id,
 			item.Title,
 			item.Link,
 			source,
 			t.Unix(),
-		))
+		)
+
+		post.Image = image
+
+		posts = append(posts, post)
 	}
 
 	return posts, nil
