@@ -7,11 +7,14 @@ export function postItem(post) {
   const children = [];
 
   if (post.image) {
-    children.push(
+  children.push(
       el("img", {
         class: "post-image",
         src: post.image,
-        alt: post.title
+        alt: post.title,
+        loading: "lazy",
+        referrerpolicy: "no-referrer",
+        onerror: (e) => e.target.remove()
       })
     );
   }
