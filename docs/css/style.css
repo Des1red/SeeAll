@@ -123,42 +123,12 @@ background: linear-gradient(
 }
 
 /* ==============================
-   SIDEBAR OVERLAY
-================================*/
-
-#sidebar-overlay {
-  position: fixed;
-  inset: 0;
-
-  background: transparent;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  touch-action: pan-y; /* allow vertical scrolling */
-
-  z-index: 50;
-}
-
-#sidebar {
-  z-index: 100;
-}
-#sidebar:hover ~ #sidebar-overlay {
-  opacity: 1;
-  pointer-events: auto;
-}
-#sidebar:hover ~ #app {
-  user-select: none;
-}
-/* ==============================
    SIDEBAR
 ================================*/
-
 #sidebar {
   position: fixed;
   top: 0;
-  left: -160px;
+  left: 0;
 
   width: 170px;
   height: 100vh;
@@ -168,7 +138,11 @@ background: linear-gradient(
 
   border-right: 1px solid #1f1f1f;
 
-  transition: left 0.25s ease;
+  transform: translateX(-160px);
+
+  transition: transform 0.25s ease;
+  will-change: transform;
+
   z-index: 100;
 }
 
@@ -189,6 +163,18 @@ background: linear-gradient(
   );
 }
 
+#sidebar.open {
+  transform: translateX(0);
+}
+
+#sidebar.open ~ #sidebar-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+#sidebar:hover {
+  transform: translateX(0);
+}
+
 #sidebar-overlay {
   position: fixed;
   inset: 0;
@@ -201,12 +187,6 @@ background: linear-gradient(
   transition: opacity 0.2s ease;
 
   z-index: 50;
-}
-#sidebar:hover {
-  left: 0;
-}
-#sidebar.open {
-  left: 0;
 }
 
 #sidebar.open ~ #sidebar-overlay {
@@ -618,7 +598,7 @@ body {
 @media (hover: hover) and (pointer: fine) {
 
   #sidebar:hover {
-    left: 0;
+    transform: translateX(0);
   }
 
   #sidebar:hover ~ #sidebar-overlay {
