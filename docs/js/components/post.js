@@ -23,7 +23,13 @@ export function postItem(post) {
     el("a", {
       href: post.url,
       target: "_blank",
-      text: post.title
+      text: post.title,
+      onclick: (e) => {
+        if (document.getElementById("sidebar")?.classList.contains("open")) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
     })
   );
 

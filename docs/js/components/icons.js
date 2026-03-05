@@ -57,3 +57,16 @@ export function iconGreece(size = 16) {
     el("line", { x1: "5", y1: "9", x2: "9", y2: "9" })
   ]);
 }
+
+export function iconSidebarHint(size = 18) {
+  return el("svg", {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "2"
+  }, [
+    el("polyline", { points: "9 6 15 12 9 18" })
+  ]);
+}

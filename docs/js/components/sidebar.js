@@ -31,8 +31,8 @@ export function renderSidebar() {
         {
           class: "sidebar-item",
           onclick: () => {
+            sidebar.classList.remove("open");
             window.location.hash = route;
-            document.getElementById("sidebar")?.classList.remove("open");
           }
         },
         [
@@ -42,6 +42,11 @@ export function renderSidebar() {
       )
     );
   });
+  sidebar.appendChild(
+    el("div", { class: "sidebar-hint" }, [
+      iconSidebarHint(20)
+    ])
+  );
 }
 
 export function sidebarCloseLogic() {
