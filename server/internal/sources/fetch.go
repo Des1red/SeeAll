@@ -9,16 +9,17 @@ import (
 
 func FetchByType(t string) ([]model.Post, error) {
 
-	srcs := GetSources()
+	var filtered []Source
+	for _, s := range GetSources() {
+		if s.Type == t {
+			filtered = append(filtered, s)
+		}
+	}
 
 	var wg sync.WaitGroup
-	resultsChan := make(chan []model.Post, len(srcs))
+	resultsChan := make(chan []model.Post, len(filtered))
 
-	for _, s := range srcs {
-
-		if s.Type != t {
-			continue
-		}
+	for _, s := range filtered {
 
 		wg.Add(1)
 
@@ -26,7 +27,7 @@ func FetchByType(t string) ([]model.Post, error) {
 			defer wg.Done()
 
 			posts, err := src.Fetch()
-			if err != nil {
+			if err != nil || len(posts) == 0 {
 				return
 			}
 
@@ -48,5 +49,16 @@ func FetchByType(t string) ([]model.Post, error) {
 		return results[i].Time > results[j].Time
 	})
 
-	return results, nil
+	seen := make(map[string]bool)
+	var dedup []model.Post
+
+	for _, p := range results {
+		if seen[p.URL] {
+			continue
+		}
+		seen[p.URL] = true
+		dedup = append(dedup, p)
+	}
+
+	return dedup, nil
 }
