@@ -56,7 +56,7 @@ func FetchJSONRSS(url string, source string, max int) ([]model.Post, error) {
 			ID:     id,
 			Title:  item.Title,
 			URL:    item.Link,
-			Image:  image,
+			Image:  cleanImageURL(image),
 			Source: source,
 			Time:   t.Unix(),
 		}

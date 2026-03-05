@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"net/http"
 	"regexp"
-	"strings"
 	"time"
 
 	"SeeAll/internal/model"
@@ -124,23 +123,7 @@ func extractImage(item rssItem) string {
 		}
 	}
 
-	if image != "" {
-
-		image = strings.TrimSpace(image)
-
-		// decode HTML entities like &amp;
-		image = strings.ReplaceAll(image, "&amp;", "&")
-
-		// protocol-less URLs
-		if strings.HasPrefix(image, "//") {
-			image = "https:" + image
-		}
-
-		// if still not absolute → ignore it
-		if !strings.HasPrefix(image, "http://") && !strings.HasPrefix(image, "https://") {
-			image = ""
-		}
-	}
+	cleanImageURL(image)
 
 	return image
 }
