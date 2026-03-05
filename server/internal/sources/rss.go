@@ -41,7 +41,7 @@ type genericRSS struct {
 	} `xml:"channel"`
 }
 
-var imgRegex = regexp.MustCompile(`src="([^"]+)"`)
+var imgRegex = regexp.MustCompile(`(?i)<img[^>]+src="([^"]+)"`)
 
 func FetchRSS(url string, source string, max int) ([]model.Post, error) {
 
@@ -128,12 +128,18 @@ func extractImage(item rssItem) string {
 
 		image = strings.TrimSpace(image)
 
+		image = strings.ReplaceAll(image, "&amp;", "&")
+		image = strings.ReplaceAll(image, "&amp;amp;", "&")
+
+		// handle protocol-less URLs
 		if strings.HasPrefix(image, "//") {
 			image = "https:" + image
 		}
 
-		image = strings.ReplaceAll(image, "&amp;", "&")
-		image = strings.ReplaceAll(image, "&amp;amp;", "&")
+		// handle relative URLs (like reddit preview images)
+		if !strings.HasPrefix(image, "http") {
+			image = "https://external-preview.redd.it/" + image
+		}
 	}
 
 	return image
