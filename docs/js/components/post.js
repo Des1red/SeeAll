@@ -12,7 +12,7 @@ export function postItem(post) {
     }),
     el("div", {
       class: "post-meta",
-      text: `${post.source} • ${timeStr}`
+      text: `SeeAll • ${timeStr}`
     })
   ]);
 }
