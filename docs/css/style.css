@@ -189,6 +189,10 @@ background: linear-gradient(
   z-index: 50;
 }
 
+#sidebar.open ~ #app {
+  pointer-events: none;
+  user-select: none;
+}
 #sidebar.open ~ #sidebar-overlay {
   opacity: 1;
   pointer-events: auto;

@@ -32,6 +32,7 @@ export function renderSidebar() {
           class: "sidebar-item",
           onclick: () => {
             window.location.hash = route;
+            document.getElementById("sidebar")?.classList.remove("open");
           }
         },
         [
@@ -41,4 +42,18 @@ export function renderSidebar() {
       )
     );
   });
+}
+
+export function sidebarCloseLogic() {
+
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
+
+  if (!sidebar || !overlay) return;
+
+  const close = () => sidebar.classList.remove("open");
+
+  overlay.addEventListener("click", close);
+  overlay.addEventListener("touchstart", close, { passive: true });
+
 }
