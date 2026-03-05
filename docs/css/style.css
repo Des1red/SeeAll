@@ -175,7 +175,14 @@ background: linear-gradient(
 #sidebar:hover {
   left: 0;
 }
+#sidebar.open {
+  left: 0;
+}
 
+#sidebar.open ~ #sidebar-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
 .sidebar-item {
   display: flex;
   align-items: center;
@@ -575,4 +582,22 @@ body {
 
 @keyframes cursorBlink {
   50% { opacity: 0; }
+}
+
+/* mobile */
+@media (hover: hover) {
+
+  #sidebar:hover {
+    left: 0;
+  }
+
+  #sidebar:hover ~ #sidebar-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #sidebar:hover ~ #app {
+    user-select: none;
+  }
+
 }
