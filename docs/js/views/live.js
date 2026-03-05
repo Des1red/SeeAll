@@ -13,6 +13,7 @@ export async function renderLive(app) {
 
   let pendingNew = [];
   let newBanner = null;
+  let stopped = false;
 
   const posts = await fetchByType("live");
 
@@ -44,6 +45,9 @@ export async function renderLive(app) {
 
   async function pollUpdates() {
 
+    // Don't poll when tab is hidden
+    if (document.hidden) return;
+
     const latest = await fetchByType("live");
 
     latest.sort((a, b) => b.time - a.time);
@@ -54,15 +58,27 @@ export async function renderLive(app) {
 
     if (!fresh.length) return;
 
-    pendingNew = fresh;
+    pendingNew = [...fresh, ...pendingNew];
 
     showNewBanner(fresh.length);
   }
 
-  const timer = setInterval(pollUpdates, 30000);
+  async function startPolling() {
+
+    while (!stopped) {
+
+      await new Promise(r => setTimeout(r, 30000));
+
+      if (stopped) break;
+
+      await pollUpdates();
+    }
+  }
+
+  startPolling();
 
   return () => {
-    clearInterval(timer);
+    stopped = true;
     feed.cleanup();
   };
 }

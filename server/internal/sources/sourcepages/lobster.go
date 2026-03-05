@@ -34,12 +34,18 @@ func fetchLobsters() ([]model.Post, error) {
 			break
 		}
 
-		posts = append(posts, sources.NormalizeLobsters(
+		post := sources.NormalizeLobsters(
 			item.GUID,
 			item.Title,
 			item.Link,
 			item.PubDate,
-		))
+		)
+
+		if post.Title == "" || post.Time == 0 {
+			continue
+		}
+
+		posts = append(posts, post)
 	}
 
 	return posts, nil

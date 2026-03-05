@@ -54,7 +54,15 @@ func NormalizeLobsters(guid, title, link, pubDate string) model.Post {
 	var ts int64
 
 	if pubDate != "" {
+
+		// Try RFC1123 with timezone offset
 		t, err := time.Parse(time.RFC1123Z, pubDate)
+
+		// Some RSS feeds use RFC1123 without numeric zone
+		if err != nil {
+			t, err = time.Parse(time.RFC1123, pubDate)
+		}
+
 		if err == nil {
 			ts = t.Unix()
 		}
