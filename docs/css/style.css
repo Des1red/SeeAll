@@ -62,30 +62,64 @@ body {
   padding: 40px 20px;
 }
 
-/* =========================================
+/* ==============================
    PAGE TITLE
-========================================= */
+================================*/
 
 .page-title {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
 
-  margin-bottom: 28px;
+  margin-bottom: 25px;
 
-  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+/* ==============================
+   TITLE TYPEWRITER
+================================*/
 
-  animation: fadeSlide 400ms ease;
+.page-title-animated {
+  font-size: 28px;
+  font-weight: 700;
+
+  color: transparent;
+
+background: linear-gradient(
+  90deg,
+  #6a6ed1,
+  #6468b5,
+  #5c7a7a,
+  #6c5555,
+  #6a6ed1
+);
+
+  background-size: 220% 220%;
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  animation:
+    titleGradient 10s ease infinite,
+    titleReveal 1.6s ease forwards;
+
+  display: inline-block;
 }
 
-@keyframes fadeSlide {
+/* reveal animation instead of width animation */
+
+@keyframes titleReveal {
   from {
-    opacity: 0;
-    transform: translateY(8px);
+    clip-path: inset(0 100% 0 0);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
   }
+}
+
+/* gradient flow */
+@keyframes titleGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ==============================
@@ -117,84 +151,122 @@ body {
 #sidebar:hover ~ #app {
   user-select: none;
 }
-/* =========================================
+/* ==============================
    SIDEBAR
-========================================= */
+================================*/
 
 #sidebar {
   position: fixed;
-  left: -180px;
   top: 0;
+  left: -150px;
 
-  width: 180px;
+  width: 170px;
   height: 100vh;
 
-  background: var(--surface);
+  background: #0f0f0f;
 
-  border-right: 1px solid var(--border);
+  padding-top: 20px;
 
-  padding-top: 18px;
+  border-right: 1px solid #1f1f1f;
 
-  transition: left var(--transition);
+  transition: left 0.25s ease;
 }
 
 #sidebar:hover {
   left: 0;
 }
 
-.sidebar-title {
-
-  font-size: 18px;
-  font-weight: 700;
-
-  padding: 14px 18px;
-  margin-bottom: 10px;
-
-  border-bottom: 1px solid var(--border);
-
-  color: var(--text);
-}
 .sidebar-item {
-
   display: flex;
   align-items: center;
   gap: 10px;
 
   width: 100%;
 
-  padding: 10px 18px;
+  padding: 12px 18px;
 
-  border: none;
   background: none;
+  border: none;
+
+  color: #cfcfcf;
+  text-align: left;
 
   font-size: 14px;
-
-  color: var(--text-muted);
 
   cursor: pointer;
 
   transition:
-    color var(--transition-fast),
-    background var(--transition-fast),
-    transform var(--transition-fast);
-}
-
-.sidebar-item:hover {
-
-  color: var(--text);
-
-  background: var(--surface-2);
-
-  transform: translateX(3px);
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
 }
 
 .sidebar-item svg {
-
   width: 16px;
   height: 16px;
 
-  opacity: 0.8;
+  flex-shrink: 0;
+
+  opacity: 0.75;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    color 0.2s ease;
 }
+
+.sidebar-item:hover svg {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.sidebar-item:hover {
+  background: #151515;
+  color: #ffffff;
+
+  box-shadow: inset 3px 0 0 #8c50ff;
+
+  transform: translateX(2px);
+}
+/* ==============================
+   SIDEBAR TITLE
+================================*/
+
+.sidebar-title {
+  position: relative;
+
+  font-size: 20px;
+  font-weight: 800;
+
+  padding: 14px 18px 18px 36px;
+
+  border-bottom: 1px solid #1f1f1f;
+  margin-bottom: 12px;
+
+  letter-spacing: 1.2px;
+
+  background: linear-gradient(
+    90deg,
+    #6b63c7,
+    #5f63b2,
+    #4f7f72
+  );
+
+  background-size: 180% 180%;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  animation: seeallGlow 10s ease infinite;
+
+  text-shadow:
+    0 0 6px rgba(100,90,200,0.25),
+    0 0 10px rgba(80,120,110,0.15);
+}
+/* glowing dot */
+
 .sidebar-title::before {
   content: "";
 
@@ -247,60 +319,73 @@ body {
     transform: translateY(-50%) scale(1);
   }
 }
-/* =========================================
-   POST ITEM
-========================================= */
+/* ==============================
+   POST
+================================*/
 
 .post {
+  padding: 14px 14px;
 
-  padding: 16px;
+  border-bottom: 1px solid #1c1c1c;
 
-  border-bottom: 1px solid var(--border);
+  border-radius: 8px;
 
   transition:
-    background var(--transition),
-    transform var(--transition);
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+
+  position: relative;
 }
 
 .post:hover {
-
-  background: var(--surface);
+  background: #121212;
 
   transform: translateY(-2px);
+
+  box-shadow:
+    0 0 0 1px rgba(140,80,255,0.2),
+    0 10px 30px rgba(0,0,0,0.6);
+}
+.post:last-child {
+  border-bottom: none;
 }
 
-/* title */
-
+/* ------ TITLE ------ */
 .post a {
-
   font-size: 16px;
   font-weight: 600;
 
-  color: var(--text);
-
+  color: #e6e6e6;
   text-decoration: none;
 
   display: block;
 
-  margin-bottom: 6px;
-
-  transition: color var(--transition-fast);
+  transition:
+    color 0.15s ease,
+    text-shadow 0.2s ease;
 }
 
 .post a:hover {
-  color: var(--accent);
+  color: #9a7dff;
+
+  text-shadow:
+    0 0 6px rgba(140,80,255,0.6),
+    0 0 18px rgba(140,80,255,0.2);
 }
 
-/* metadata */
-
+/* ------ METADATA ------ */
 .post-meta {
-
   font-size: 12px;
+  color: #8a8a8a;
 
-  color: var(--text-muted);
+  margin-top: 6px;
 
   display: flex;
-  gap: 8px;
+  gap: 10px;
+}
+.post:hover .post-meta {
+  color: #70e0a0;
 }
 /* ==============================
    INFO TEXT
@@ -334,35 +419,56 @@ body {
     background-position: 10% 5%, 90% 10%, 50% 95%;
   }
 }
+/* ==============================
+   Feed banner new posts
+================================*/
 .new-post-banner {
-
   position: sticky;
-  top: 12px;
+  top: 10px;
+
+  margin-bottom: 15px;
 
   padding: 8px 12px;
 
-  border-radius: var(--radius);
+  background: linear-gradient(
+    90deg,
+    #5f63b2,
+    #4f7f72
+  );
 
-  background: var(--surface);
-
-  border: 1px solid var(--border);
+  color: #e8e8e8;
 
   font-size: 13px;
 
-  text-align: center;
+  border-radius: 6px;
 
   cursor: pointer;
 
-  transition:
-    background var(--transition),
-    transform var(--transition);
+  text-align: center;
+
+  box-shadow:
+    0 0 6px rgba(90,95,180,0.25),
+    0 0 14px rgba(80,120,110,0.15);
+
+  animation: bannerGlow 6s ease infinite alternate;
 }
+.new-post-banner::before {
+  content: "●";
+  margin-right: 6px;
+  color: #6d66c8;
+}
+@keyframes bannerGlow {
+  from {
+    box-shadow:
+      0 0 6px rgba(90,95,180,0.25),
+      0 0 14px rgba(80,120,110,0.15);
+  }
 
-.new-post-banner:hover {
-
-  background: var(--surface-2);
-
-  transform: translateY(-1px);
+  to {
+    box-shadow:
+      0 0 10px rgba(90,95,180,0.35),
+      0 0 20px rgba(80,120,110,0.25);
+  }
 }
 /* ==============================
    Feed end 
@@ -378,46 +484,44 @@ body {
 
   letter-spacing: 0.05em;
 }
-/* =========================================
-   ERROR POPUP
-========================================= */
+/* ==============================
+   ERRORS
+================================*/
 
 .error-popup {
-
   position: fixed;
-
   bottom: 25px;
   right: 25px;
 
-  padding: 12px 16px;
-
-  border-radius: var(--radius);
-
-  background: #b83a3a;
+  background: #7a1f1f;
 
   color: white;
 
-  font-size: 13px;
+  padding: 12px 16px;
+  border-radius: 6px;
 
-  box-shadow: var(--shadow-soft);
+  font-size: 14px;
 
-  animation: errorSlide 250ms ease;
+  box-shadow:
+    0 0 12px rgba(200,50,50,0.6),
+    0 10px 30px rgba(0,0,0,0.5);
 
-  z-index: 999;
+  animation: errorEnter 0.25s ease;
+
+  z-index: 9999;
 }
 
-@keyframes errorSlide {
-
+@keyframes errorEnter {
   from {
+    transform: translateY(15px);
     opacity: 0;
-    transform: translateY(10px);
   }
-
   to {
-    opacity: 1;
     transform: translateY(0);
+    opacity: 1;
   }
 }
+
 /* ==============================
    LOADING "LIVE TYPING" STATUS
 ================================*/
