@@ -1,6 +1,6 @@
 import { getRoutes } from "../state.js";
 import { el } from "./dom.js";
-import { iconLive, iconNews, iconGreece } from "./icons.js";
+import { iconLive, iconNews, iconGreece, iconSidebarHint } from "./icons.js";
 
 const ROUTE_ICONS = {
   live: iconLive,
