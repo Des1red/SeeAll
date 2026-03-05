@@ -1,6 +1,4 @@
-import { renderDaily } from "./views/daily.js";
-import { renderLive } from "./views/live.js";
-import { renderGreece } from "./views/greece.js";
+import { views } from "./views/index.js";
 
 const app = document.getElementById("app");
 
@@ -15,20 +13,12 @@ export async function render(view) {
 
   app.innerHTML = "";
 
-  if (view === "daily") {
-    cleanup = await renderDaily(app);
+  const renderer = views[view];
+
+  if (!renderer) {
+    window.location.hash = "daily";
     return;
   }
 
-  if (view === "live") {
-    cleanup = await renderLive(app);
-    return;
-  }
-
-  if (view === "greece") {
-    cleanup = await renderGreece(app);
-    return;
-  }
-
-  window.location.hash = "daily";
+  cleanup = await renderer(app);
 }
