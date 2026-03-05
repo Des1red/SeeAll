@@ -22,7 +22,6 @@ type kathimeriniRSS struct {
 			Title   string `xml:"title"`
 			Link    string `xml:"link"`
 			PubDate string `xml:"pubDate"`
-			Guid    string `xml:"guid"`
 		} `xml:"item"`
 	} `xml:"channel"`
 }
@@ -53,9 +52,11 @@ func fetchKathimerini() ([]model.Post, error) {
 		if err != nil {
 			t, _ = time.Parse(time.RFC1123, item.PubDate)
 		}
-
+		if item.Link == "" || item.Title == "" {
+			continue
+		}
 		posts = append(posts, sources.NormalizeNews(
-			item.Guid,
+			item.Link,
 			item.Title,
 			item.Link,
 			"Kathimerini",
@@ -87,7 +88,6 @@ type rizospastisRSS struct {
 			Title   string `xml:"title"`
 			Link    string `xml:"link"`
 			PubDate string `xml:"pubDate"`
-			Guid    string `xml:"guid"`
 		} `xml:"item"`
 	} `xml:"channel"`
 }
@@ -118,9 +118,11 @@ func fetchRizospastis() ([]model.Post, error) {
 		if err != nil {
 			t, _ = time.Parse(time.RFC1123, item.PubDate)
 		}
-
+		if item.Link == "" || item.Title == "" {
+			continue
+		}
 		posts = append(posts, sources.NormalizeNews(
-			item.Guid,
+			item.Link,
 			item.Title,
 			item.Link,
 			"Rizospastis",

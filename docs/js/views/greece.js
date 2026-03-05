@@ -11,7 +11,7 @@ export async function renderGreece(app) {
 
   const feed = createFeed(body);
 
-  const posts = await fetchByType("greece");
+  const posts = (await fetchByType("greece")) || [];
 
   posts.sort((a, b) => b.time - a.time);
 
