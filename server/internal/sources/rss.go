@@ -21,10 +21,16 @@ type rssItem struct {
 	Description    string `xml:"description"`
 	ContentEncoded string `xml:"content:encoded"`
 
-	MediaContent struct {
-		URL string `xml:"url,attr"`
+	MediaContents []struct {
+		URL  string `xml:"url,attr"`
+		Type string `xml:"type,attr"`
 	} `xml:"media:content"`
-
+	MediaGroup struct {
+		Contents []struct {
+			URL  string `xml:"url,attr"`
+			Type string `xml:"type,attr"`
+		} `xml:"media:content"`
+	} `xml:"media:group"`
 	MediaThumbnail struct {
 		URL string `xml:"url,attr"`
 	} `xml:"media:thumbnail"`
@@ -99,8 +105,19 @@ func FetchRSS(url string, source string, max int) ([]model.Post, error) {
 
 func extractImage(item rssItem) string {
 
-	image := item.MediaContent.URL
-
+	// media:content (multiple)
+	for _, m := range item.MediaContents {
+		if m.URL != "" {
+			return cleanImageURL(m.URL)
+		}
+	}
+	// media:group
+	for _, m := range item.MediaGroup.Contents {
+		if m.URL != "" {
+			return cleanImageURL(m.URL)
+		}
+	}
+	image := item.MediaThumbnail.URL
 	if image == "" {
 		image = item.MediaThumbnail.URL
 	}
@@ -123,7 +140,5 @@ func extractImage(item rssItem) string {
 		}
 	}
 
-	cleanImageURL(image)
-
-	return image
+	return cleanImageURL(image)
 }
