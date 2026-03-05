@@ -12,7 +12,6 @@ export async function renderDaily(app) {
   const feed = createFeed(body);
 
   const posts = await fetchByType("daily");
-  console.log(posts[0])
   posts.sort((a, b) => b.time - a.time);
 
   feed.setPosts(posts);

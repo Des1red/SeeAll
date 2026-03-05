@@ -30,6 +30,5 @@ export function postItem(post) {
       text: `SeeAll • ${timeStr}`
     })
   );
-  console.log(posts[0])
   return el("div", { class: "post" }, children);
 }
