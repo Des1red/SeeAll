@@ -1,3 +1,5 @@
+import { renderNews } from "./news.js";
+
 export function renderSports(app) {
   return renderNews(app, {
     title: "Sports News",
