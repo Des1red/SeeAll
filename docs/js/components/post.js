@@ -39,7 +39,7 @@ export function postItem(post) {
     el("div", {
       class: "post-meta",
       // text: `SeeAll • ${timeStr}`
-      text: `${post.title} • ${timeStr}`
+      text: `${post.source} • ${timeStr}`
     })
   );
   return el("div", { class: "post" }, children);
