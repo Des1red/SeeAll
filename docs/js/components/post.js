@@ -1,5 +1,7 @@
 import { el } from "./dom.js";
 
+const sidebar = document.getElementById("sidebar");
+
 export function postItem(post) {
   const date = new Date(post.time * 1000);
   const timeStr = date.toLocaleString();
@@ -25,7 +27,7 @@ export function postItem(post) {
       target: "_blank",
       text: post.title,
       onclick: (e) => {
-        if (document.getElementById("sidebar")?.classList.contains("open")) {
+        if (sidebar?.classList.contains("open")) {
           e.preventDefault();
           e.stopPropagation();
         }

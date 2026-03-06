@@ -15,11 +15,3 @@ export function setView(view) {
 export function getView() {
   return state.view;
 }
-
-export function setSidebarOpen(value) {
-  state.sidebarOpen = value;
-}
-
-export function isSidebarOpen() {
-  return state.sidebarOpen;
-}

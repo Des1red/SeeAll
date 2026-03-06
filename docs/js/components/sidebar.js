@@ -1,4 +1,4 @@
-import { getRoutes, setSidebarOpen, isSidebarOpen } from "../state.js";
+import { getRoutes } from "../state.js";
 import { el } from "./dom.js";
 import { iconLive, iconNews, iconGreece, iconSidebarHint } from "./icons.js";
 
@@ -16,25 +16,21 @@ export function renderSidebar() {
 
   sidebar.addEventListener("mouseenter", () => {
     sidebar.classList.add("open");
-    setSidebarOpen(true);
   });
-
+  
   sidebar.addEventListener("mouseleave", () => {
     sidebar.classList.remove("open");
-    setSidebarOpen(false);
   });
 
   /* MOBILE TAP */
 
-   sidebar.addEventListener("touchstart", (e) => {
-   
-     if (!isSidebarOpen()) {
-       sidebar.classList.add("open");
-       setSidebarOpen(true);
-       return;
-     }
-   
-   });
+  sidebar.addEventListener("touchstart", () => {
+  
+    if (!sidebar.classList.contains("open")) {
+      sidebar.classList.add("open");
+    }
+  
+  });
 
   /* TITLE */
 
@@ -57,7 +53,7 @@ export function renderSidebar() {
         {
           class: "sidebar-item",
           onclick: () => {
-            if (!isSidebarOpen()) return;
+            if (!sidebar.classList.contains("open")) return;
             window.location.hash = route;
           }
         },
@@ -88,7 +84,6 @@ export function sidebarCloseLogic() {
 
   const close = () => {
     sidebar.classList.remove("open");
-    setSidebarOpen(false);
   };
 
   overlay.addEventListener("click", close);
