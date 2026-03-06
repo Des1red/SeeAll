@@ -3,7 +3,7 @@ import { el } from "./dom.js";
 import * as icons from "./icons.js";
 
 const ROUTE_ICONS = {
-  live: icons.iconGeneral,
+  general: icons.iconGeneral,
   daily: icons.iconNews,
   greece: icons.iconGreece,
   tech: icons.iconTech,
