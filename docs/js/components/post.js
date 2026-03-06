@@ -1,4 +1,5 @@
 import { el } from "./dom.js";
+import { isSidebarOpen } from "../state.js";
 
 export function postItem(post) {
   const date = new Date(post.time * 1000);
@@ -25,7 +26,7 @@ export function postItem(post) {
       target: "_blank",
       text: post.title,
       onclick: (e) => {
-        if (document.getElementById("sidebar")?.classList.contains("open")) {
+        if (isSidebarOpen()) {
           e.preventDefault();
           e.stopPropagation();
         }

@@ -58,15 +58,29 @@ export function iconGreece(size = 16) {
   ]);
 }
 
-export function iconSidebarHint(size = 18) {
+export function iconSidebarHint(size = 24) {
   return el("svg", {
     width: size,
     height: size,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
-    "stroke-width": "2"
+    "stroke-width": "2.2",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round"
   }, [
-    el("polyline", { points: "9 6 15 12 9 18" })
+    // sidebar panel
+    el("rect", {
+      x: "3",
+      y: "4",
+      width: "6",
+      height: "16",
+      rx: "1.5"
+    }),
+
+    // arrow pointing right
+    el("polyline", {
+      points: "11 7 16 12 11 17"
+    })
   ]);
 }

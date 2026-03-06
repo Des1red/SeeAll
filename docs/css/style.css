@@ -168,10 +168,6 @@ background: linear-gradient(
   transform: translateX(0);
 }
 
-#sidebar.open ~ #sidebar-overlay {
-  opacity: 1;
-  pointer-events: auto;
-}
 #sidebar:hover {
   transform: translateX(0);
 }
@@ -190,14 +186,16 @@ background: linear-gradient(
   z-index: 50;
 }
 
-#sidebar.open ~ #app {
-  pointer-events: none;
-  user-select: none;
-}
 #sidebar.open ~ #sidebar-overlay {
   opacity: 1;
   pointer-events: auto;
 }
+
+#sidebar.open ~ #app {
+  pointer-events: none;
+  user-select: none;
+}
+
 .sidebar-item {
   display: flex;
   align-items: center;
@@ -343,7 +341,8 @@ background: linear-gradient(
 }
 /* sidebar hint arrow */
 .sidebar-hint {
-  position: absolute;
+  position: fixed;
+
   top: 50%;
   right: -18px;
 
@@ -363,8 +362,15 @@ background: linear-gradient(
   pointer-events: none;
 
   animation: sidebarHintPulse 2s ease-in-out infinite;
-}
 
+  z-index: 120;
+}
+.sidebar-hint svg {
+  transition: transform 0.25s ease;
+}
+#sidebar.open .sidebar-hint svg {
+  transform: rotate(180deg);
+}
 @keyframes sidebarHintPulse {
   0%,100% {
     transform: translateY(-50%) translateX(0);

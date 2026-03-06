@@ -1,4 +1,4 @@
-import { getRoutes } from "../state.js";
+import { getRoutes , setSidebarOpen, isSidebarOpen } from "../state.js";
 import { el } from "./dom.js";
 import { iconLive, iconNews, iconGreece, iconSidebarHint } from "./icons.js";
 
@@ -11,7 +11,15 @@ const ROUTE_ICONS = {
 export function renderSidebar() {
   const sidebar = document.getElementById("sidebar");
   sidebar.innerHTML = "";
-
+  sidebar.addEventListener("mouseenter", () => {
+    sidebar.classList.add("open");
+    setSidebarOpen(true);
+  });
+  
+  sidebar.addEventListener("mouseleave", () => {
+    sidebar.classList.remove("open");
+    setSidebarOpen(false);
+  });
   /* program title */
   sidebar.appendChild(
     el("div", { class: "sidebar-title", text: "SeeAll" })
@@ -30,8 +38,11 @@ export function renderSidebar() {
         "button",
         {
           class: "sidebar-item",
-          onclick: () => {
+          onclick: (e) => {
+            if (!isSidebarOpen()) return;
+          
             sidebar.classList.remove("open");
+            setSidebarOpen(false);
             window.location.hash = route;
           }
         },
@@ -44,7 +55,7 @@ export function renderSidebar() {
   });
   sidebar.appendChild(
     el("div", { class: "sidebar-hint" }, [
-      iconSidebarHint(20)
+      iconSidebarHint(12)
     ])
   );
 }
@@ -56,7 +67,10 @@ export function sidebarCloseLogic() {
 
   if (!sidebar || !overlay) return;
 
-  const close = () => sidebar.classList.remove("open");
+  const close = () => {
+    sidebar.classList.remove("open");
+    setSidebarOpen(false);
+  };
 
   overlay.addEventListener("click", close);
   overlay.addEventListener("touchstart", close, { passive: true });

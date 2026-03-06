@@ -27,7 +27,7 @@ export function el(tag, attrs = null, children = null) {
 
   /* ---------- FAST SVG CHECK ---------- */
 
-  const isSVG = tag.length <= 6 && SVG_TAGS.has(tag);
+  const isSVG = SVG_TAGS.has(tag);
 
   const node = isSVG
     ? document.createElementNS(SVG_NS, tag)
