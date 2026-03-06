@@ -9,18 +9,18 @@ export async function fetchByType(type) {
     resp = await fetch(`${API_BASE}/news/${type}`);
   } catch {
     emitNetworkError("Unable to reach backend.");
-    return [];
+    return null;
   }
 
   if (!resp.ok) {
     emitAPIError(`Server returned ${resp.status}`);
-    return [];
+    return null;
   }
 
   try {
     return await resp.json();
   } catch {
     emitAPIError("Invalid response from server.");
-    return [];
+    return null;
   }
 }

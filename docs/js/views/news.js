@@ -41,7 +41,7 @@ async function pollUpdates() {
   if (document.hidden) return;
 
   const latest = await fetchByType(type);
-
+  if (!latest) return;
   latest.sort((a, b) => b.time - a.time);
 
   const fresh = [];
@@ -92,6 +92,7 @@ export async function renderNews(app, { title, type, loading, polling = false })
   const feed = createFeed(body);
 
   const posts = await fetchByType(type);
+  if (!posts) return;
   posts.sort((a, b) => b.time - a.time);
 
   feed.setPosts(posts);

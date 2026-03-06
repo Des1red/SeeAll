@@ -1,6 +1,3 @@
-import { initRouter } from "./router.js";
-import { renderSidebar, sidebarCloseLogic } from "./components/sidebar.js";
+import { bootstrap } from "./bootstrap/bootstrap.js";
 
-renderSidebar();
-initRouter();
-sidebarCloseLogic();
+bootstrap();
