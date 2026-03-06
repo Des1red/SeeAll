@@ -74,7 +74,7 @@ export function renderSidebar() {
 
   sidebar.appendChild(
     el("div", { class: "sidebar-hint" }, [
-      iconSidebarHint(12)
+      icons.iconSidebarHint(12)
     ])
   );
 }
