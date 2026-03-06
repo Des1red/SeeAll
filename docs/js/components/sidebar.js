@@ -78,3 +78,20 @@ export function renderSidebar() {
     ])
   );
 }
+
+export function sidebarCloseLogic() {
+
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebar-overlay");
+
+  if (!sidebar || !overlay) return;
+
+  const close = () => {
+    sidebar.classList.remove("open");
+    setSidebarOpen(false);
+  };
+
+  overlay.addEventListener("click", close);
+  overlay.addEventListener("touchstart", close, { passive: true });
+
+}

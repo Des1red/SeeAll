@@ -373,13 +373,30 @@ background: linear-gradient(
 }
 @keyframes sidebarHintPulse {
   0%,100% {
-    transform: translateY(-50%) translateX(0);
+    translate: 0 0;
     opacity: 0.5;
   }
   50% {
-    transform: translateY(-50%) translateX(4px);
+    translate: 4px 0;
     opacity: 1;
   }
+}
+/* mobile */
+@media (hover: hover) and (pointer: fine) {
+
+  #sidebar:hover {
+    transform: translateX(0);
+  }
+
+  #sidebar:hover ~ #sidebar-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #sidebar:hover ~ #app {
+    user-select: none;
+  }
+
 }
 /* ==============================
    POST
@@ -661,22 +678,4 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 
   z-index: 1000;
-}
-
-/* mobile */
-@media (hover: hover) and (pointer: fine) {
-
-  #sidebar:hover {
-    transform: translateX(0);
-  }
-
-  #sidebar:hover ~ #sidebar-overlay {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  #sidebar:hover ~ #app {
-    user-select: none;
-  }
-
 }
