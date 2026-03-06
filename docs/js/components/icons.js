@@ -84,3 +84,49 @@ export function iconSidebarHint(size = 24) {
     })
   ]);
 }
+
+/* TECH */
+
+export function iconTech(size = 16) {
+  return el("svg", {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "1.8",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round"
+  }, [
+    // chip body
+    el("rect", { x: "7", y: "7", width: "10", height: "10", rx: "2" }),
+
+    // pins
+    el("line", { x1: "12", y1: "3", x2: "12", y2: "7" }),
+    el("line", { x1: "12", y1: "17", x2: "12", y2: "21" }),
+    el("line", { x1: "3", y1: "12", x2: "7", y2: "12" }),
+    el("line", { x1: "17", y1: "12", x2: "21", y2: "12" })
+  ]);
+}
+
+/* SPORTS */
+
+export function iconSports(size = 16) {
+  return el("svg", {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "1.8",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round"
+  }, [
+    // ball outline
+    el("circle", { cx: "12", cy: "12", r: "8" }),
+
+    // simple panel lines
+    el("path", { d: "M4 12c2-3 6-3 8 0s6 3 8 0" }),
+    el("path", { d: "M4 12c2 3 6 3 8 0s6-3 8 0" })
+  ]);
+}
