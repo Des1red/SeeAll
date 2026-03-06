@@ -1,4 +1,4 @@
-import { getRoutes , setSidebarOpen, isSidebarOpen } from "../state.js";
+import { getRoutes, setSidebarOpen, isSidebarOpen } from "../state.js";
 import { el } from "./dom.js";
 import { iconLive, iconNews, iconGreece, iconSidebarHint } from "./icons.js";
 
@@ -11,16 +11,33 @@ const ROUTE_ICONS = {
 export function renderSidebar() {
   const sidebar = document.getElementById("sidebar");
   sidebar.innerHTML = "";
+
+  /* DESKTOP HOVER */
+
   sidebar.addEventListener("mouseenter", () => {
     sidebar.classList.add("open");
     setSidebarOpen(true);
   });
-  
+
   sidebar.addEventListener("mouseleave", () => {
     sidebar.classList.remove("open");
     setSidebarOpen(false);
   });
-  /* program title */
+
+  /* MOBILE TAP */
+
+   sidebar.addEventListener("touchstart", (e) => {
+   
+     if (!isSidebarOpen()) {
+       sidebar.classList.add("open");
+       setSidebarOpen(true);
+       return;
+     }
+   
+   });
+
+  /* TITLE */
+
   sidebar.appendChild(
     el("div", { class: "sidebar-title", text: "SeeAll" })
   );
@@ -28,6 +45,7 @@ export function renderSidebar() {
   const routes = getRoutes();
 
   routes.forEach((route) => {
+
     const label = route.charAt(0).toUpperCase() + route.slice(1);
 
     const iconFn = ROUTE_ICONS[route];
@@ -38,11 +56,8 @@ export function renderSidebar() {
         "button",
         {
           class: "sidebar-item",
-          onclick: (e) => {
+          onclick: () => {
             if (!isSidebarOpen()) return;
-          
-            sidebar.classList.remove("open");
-            setSidebarOpen(false);
             window.location.hash = route;
           }
         },
@@ -52,27 +67,14 @@ export function renderSidebar() {
         ]
       )
     );
+
   });
+
+  /* HINT ICON (visual only) */
+
   sidebar.appendChild(
     el("div", { class: "sidebar-hint" }, [
       iconSidebarHint(12)
     ])
   );
-}
-
-export function sidebarCloseLogic() {
-
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("sidebar-overlay");
-
-  if (!sidebar || !overlay) return;
-
-  const close = () => {
-    sidebar.classList.remove("open");
-    setSidebarOpen(false);
-  };
-
-  overlay.addEventListener("click", close);
-  overlay.addEventListener("touchstart", close, { passive: true });
-
 }
