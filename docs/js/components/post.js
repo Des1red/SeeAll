@@ -38,7 +38,8 @@ export function postItem(post) {
   children.push(
     el("div", {
       class: "post-meta",
-      text: `SeeAll • ${timeStr}`
+      // text: `SeeAll • ${timeStr}`
+      text: `${post.title} • ${timeStr}`
     })
   );
   return el("div", { class: "post" }, children);
