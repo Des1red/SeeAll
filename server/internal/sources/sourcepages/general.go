@@ -19,3 +19,18 @@ func init() {
 		},
 	})
 }
+
+func init() {
+	sources.RegisterSource(sources.Source{
+		Name: "BoingBoing",
+		Type: model.AudienceGeneral,
+		Fetch: func() ([]model.Post, error) {
+			return sources.FetchRSS(
+				"https://boingboing.net/feed",
+				"BoingBoing",
+				50,
+				false,
+			)
+		},
+	})
+}

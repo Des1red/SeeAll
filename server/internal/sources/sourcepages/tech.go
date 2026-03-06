@@ -67,7 +67,7 @@ func init() {
 func init() {
 	sources.RegisterSource(sources.Source{
 		Name: "DevTo",
-		Type: model.AudienceGeneral,
+		Type: model.AudienceTech,
 		Fetch: func() ([]model.Post, error) {
 			return sources.FetchRSS(
 				"https://dev.to/feed",

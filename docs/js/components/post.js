@@ -2,6 +2,10 @@ import { el } from "./dom.js";
 
 const sidebar = document.getElementById("sidebar");
 
+function stripEmojis(text) {
+  return text.replace(/\p{Extended_Pictographic}/gu, "");
+}
+
 export function postItem(post) {
   const date = new Date(post.time * 1000);
   const timeStr = date.toLocaleString();
@@ -25,7 +29,7 @@ export function postItem(post) {
     el("a", {
       href: post.url,
       target: "_blank",
-      text: post.title,
+      text: stripEmojis(post.title),
       onclick: (e) => {
         if (sidebar?.classList.contains("open")) {
           e.preventDefault();
