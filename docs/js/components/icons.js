@@ -2,7 +2,7 @@ import { el } from "./dom.js";
 
 /* LIVE */
 
-export function iconLive(size = 16) {
+export function iconGeneral(size = 16) {
   return el("svg", {
     width: size,
     height: size,

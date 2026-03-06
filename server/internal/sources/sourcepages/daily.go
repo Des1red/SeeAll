@@ -7,12 +7,12 @@ import (
 
 func init() {
 	sources.RegisterSource(sources.Source{
-		Name: "ArsTechnica",
-		Type: model.AudienceTech,
+		Name: "Al Jazeera",
+		Type: model.AudienceDaily,
 		Fetch: func() ([]model.Post, error) {
 			return sources.FetchRSS(
-				"https://feeds.arstechnica.com/arstechnica/index",
-				"ArsTechnica",
+				"https://www.aljazeera.com/xml/rss/all.xml",
+				"Al Jazeera",
 				50,
 				false,
 			)
@@ -22,12 +22,12 @@ func init() {
 
 func init() {
 	sources.RegisterSource(sources.Source{
-		Name: "TechCrunch",
-		Type: model.AudienceTech,
+		Name: "BBC",
+		Type: model.AudienceDaily,
 		Fetch: func() ([]model.Post, error) {
 			return sources.FetchRSS(
-				"https://techcrunch.com/feed/",
-				"TechCrunch",
+				"https://feeds.bbci.co.uk/news/world/rss.xml",
+				"BBC",
 				50,
 				false,
 			)
@@ -37,12 +37,12 @@ func init() {
 
 func init() {
 	sources.RegisterSource(sources.Source{
-		Name: "Krebs",
-		Type: model.AudienceTech,
+		Name: "Guardian",
+		Type: model.AudienceDaily,
 		Fetch: func() ([]model.Post, error) {
 			return sources.FetchRSS(
-				"https://krebsonsecurity.com/feed/",
-				"Krebs",
+				"https://www.theguardian.com/world/rss",
+				"Guardian",
 				50,
 				false,
 			)
@@ -52,26 +52,12 @@ func init() {
 
 func init() {
 	sources.RegisterSource(sources.Source{
-		Name: "Lobsters",
-		Type: model.AudienceTech,
-		Fetch: func() ([]model.Post, error) {
-			return sources.FetchJSONRSS(
-				"https://api.rss2json.com/v1/api.json?rss_url=https://lobste.rs/rss",
-				"Lobsters",
-				50,
-			)
-		},
-	})
-}
-
-func init() {
-	sources.RegisterSource(sources.Source{
-		Name: "DevTo",
-		Type: model.AudienceGeneral,
+		Name: "Reuters",
+		Type: model.AudienceDaily,
 		Fetch: func() ([]model.Post, error) {
 			return sources.FetchRSS(
-				"https://dev.to/feed",
-				"DevTo",
+				"https://www.reutersagency.com/feed/?best-topics=world&post_type=best",
+				"Reuters",
 				50,
 				false,
 			)

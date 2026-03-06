@@ -11,9 +11,9 @@ type Post struct {
 }
 
 const (
-	AudienceDaily  = "daily"
-	AudienceLive   = "live"
-	AudienceGreece = "greece"
-	AudienceTech   = "tech"
-	AudienceSports = "sports"
+	AudienceDaily   = "daily"
+	AudienceGeneral = "general"
+	AudienceGreece  = "greece"
+	AudienceTech    = "tech"
+	AudienceSports  = "sports"
 )

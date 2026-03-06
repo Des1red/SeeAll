@@ -4,7 +4,7 @@ export function renderTech(app) {
   return renderNews(app, {
     title: "Tech News",
     type: "tech",
-    loading: "Loading Tech news...",
+    loading: "Loading Tech...",
     polling: true
   });
 }

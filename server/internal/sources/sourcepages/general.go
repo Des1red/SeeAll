@@ -7,13 +7,14 @@ import (
 
 func init() {
 	sources.RegisterSource(sources.Source{
-		Name: "Lobsters",
-		Type: model.AudienceTech,
+		Name: "MetaFilter",
+		Type: model.AudienceGeneral,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchJSONRSS(
-				"https://api.rss2json.com/v1/api.json?rss_url=https://lobste.rs/rss",
-				"Lobsters",
+			return sources.FetchRSS(
+				"https://www.metafilter.com/rss.xml",
+				"MetaFilter",
 				50,
+				false,
 			)
 		},
 	})

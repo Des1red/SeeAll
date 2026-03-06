@@ -2,9 +2,9 @@ import { renderNews } from "./news.js";
 
 export function renderLive(app) {
   return renderNews(app, {
-    title: "Live Feed",
-    type: "live",
-    loading: "Loading live posts...",
+    title: "General Feed",
+    type: "general",
+    loading: "Loading General...",
     polling: true
   });
 }

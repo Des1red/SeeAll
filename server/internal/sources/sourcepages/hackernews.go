@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 	"sync"
 
 	"SeeAll/internal/model"
@@ -26,7 +27,24 @@ type hnItem struct {
 	Score *int   `json:"score"`
 }
 
-func fetchHN() ([]model.Post, error) {
+func isTech(title string) bool {
+	keywords := []string{
+		"AI", "LLM", "OpenAI", "GPU", "CPU",
+		"Linux", "Rust", "Go", "JavaScript",
+		"programming", "developer", "database",
+		"security", "hacker", "kernel",
+	}
+
+	for _, k := range keywords {
+		if strings.Contains(strings.ToLower(title), strings.ToLower(k)) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func fetchHNFiltered(techOnly bool) ([]model.Post, error) {
 
 	resp, err := http.Get(HN_TOP)
 	if err != nil {
@@ -68,19 +86,28 @@ func fetchHN() ([]model.Post, error) {
 			defer resp.Body.Close()
 
 			var item hnItem
-			err = json.NewDecoder(resp.Body).Decode(&item)
-			if err != nil {
+			if err := json.NewDecoder(resp.Body).Decode(&item); err != nil {
 				return
 			}
+
+			if item.Title == "" || item.Time == 0 {
+				return
+			}
+
+			if techOnly && !isTech(item.Title) {
+				return
+			}
+
+			if !techOnly && isTech(item.Title) {
+				return
+			}
+
 			post := sources.NormalizeHN(item.ID, item.Title, item.URL, item.Time, item.Score)
 
 			if post.URL != "" && post.Image == "" {
 				post.Image = sources.FetchOGImage(post.URL)
 			}
 
-			if post.Title == "" || post.Time == 0 {
-				return
-			}
 			mu.Lock()
 			posts = append(posts, post)
 			mu.Unlock()
@@ -93,10 +120,26 @@ func fetchHN() ([]model.Post, error) {
 	return posts, nil
 }
 
+func fetchHNTech() ([]model.Post, error) {
+	return fetchHNFiltered(true)
+}
+
+func fetchHNGeneral() ([]model.Post, error) {
+	return fetchHNFiltered(false)
+}
+
 func init() {
+
 	sources.RegisterSource(sources.Source{
 		Name:  "HackerNews",
 		Type:  model.AudienceTech,
-		Fetch: fetchHN,
+		Fetch: fetchHNTech,
 	})
+
+	sources.RegisterSource(sources.Source{
+		Name:  "HackerNews",
+		Type:  model.AudienceGeneral,
+		Fetch: fetchHNGeneral,
+	})
+
 }

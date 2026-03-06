@@ -4,7 +4,7 @@ export function renderGreece(app) {
   return renderNews(app, {
     title: "Greek News",
     type: "greece",
-    loading: "Loading Greek news...",
+    loading: "Loading Greece...",
     polling: true
   });
 }
