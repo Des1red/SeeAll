@@ -1,4 +1,4 @@
-const ROUTES = ["daily", "live", "greece"];
+const ROUTES = ["daily", "live", "greece", "tech", "sports"];
 
 const state = {
   view: "daily",

@@ -96,7 +96,7 @@ func fetchHN() ([]model.Post, error) {
 func init() {
 	sources.RegisterSource(sources.Source{
 		Name:  "HackerNews",
-		Type:  "live",
+		Type:  model.AudienceTech,
 		Fetch: fetchHN,
 	})
 }

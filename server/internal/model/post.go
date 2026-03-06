@@ -9,3 +9,11 @@ type Post struct {
 	Time   int64  `json:"time"`
 	Score  *int   `json:"score"`
 }
+
+const (
+	AudienceDaily  = "daily"
+	AudienceLive   = "live"
+	AudienceGreece = "greece"
+	AudienceTech   = "tech"
+	AudienceSports = "sports"
+)

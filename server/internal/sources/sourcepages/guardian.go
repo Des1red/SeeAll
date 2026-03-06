@@ -8,7 +8,7 @@ import (
 func init() {
 	sources.RegisterSource(sources.Source{
 		Name: "Guardian",
-		Type: "daily",
+		Type: model.AudienceDaily,
 		Fetch: func() ([]model.Post, error) {
 			return sources.FetchRSS(
 				"https://www.theguardian.com/world/rss",

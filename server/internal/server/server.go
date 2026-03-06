@@ -34,9 +34,7 @@ func Start(addr string) {
 	mux := http.NewServeMux()
 
 	// routes
-	mux.HandleFunc("/news/daily", handlers.Daily)
-	mux.HandleFunc("/news/live", handlers.Live)
-	mux.HandleFunc("/news/greece", handlers.Greece)
+	mux.HandleFunc("/news/", handlers.News)
 
 	log.Println("server running on", addr)
 
