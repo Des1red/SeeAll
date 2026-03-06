@@ -1,6 +1,6 @@
 import { renderNews } from "./news.js";
 
-export function renderLive(app) {
+export function renderGeneral(app) {
   return renderNews(app, {
     title: "General Feed",
     type: "general",
