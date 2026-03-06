@@ -14,6 +14,7 @@ func init() {
 				"https://feeds.npr.org/1001/rss.xml",
 				"NPR",
 				50,
+				false,
 			)
 		},
 	})

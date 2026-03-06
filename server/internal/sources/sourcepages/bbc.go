@@ -14,6 +14,7 @@ func init() {
 				"https://feeds.bbci.co.uk/news/world/rss.xml",
 				"BBC",
 				50,
+				false,
 			)
 		},
 	})

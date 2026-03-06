@@ -14,6 +14,7 @@ func init() {
 				"https://www.aljazeera.com/xml/rss/all.xml",
 				"Al Jazeera",
 				50,
+				false,
 			)
 		},
 	})

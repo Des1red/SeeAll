@@ -14,22 +14,24 @@ export function renderSidebar() {
 
   /* DESKTOP HOVER */
 
-  sidebar.addEventListener("mouseenter", () => {
-    sidebar.classList.add("open");
+  sidebar.addEventListener("pointerenter", (e) => {
+    if (e.pointerType === "mouse") {
+      sidebar.classList.add("open");
+    }
   });
   
-  sidebar.addEventListener("mouseleave", () => {
-    sidebar.classList.remove("open");
+  sidebar.addEventListener("pointerleave", (e) => {
+    if (e.pointerType === "mouse") {
+      sidebar.classList.remove("open");
+    }
   });
 
   /* MOBILE TAP */
 
-  sidebar.addEventListener("touchstart", () => {
-  
+  sidebar.addEventListener("pointerdown", () => {
     if (!sidebar.classList.contains("open")) {
-      sidebar.classList.add("open");
+      sidebar.classList.toggle("open");
     }
-  
   });
 
   /* TITLE */

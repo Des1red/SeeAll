@@ -14,6 +14,7 @@ func init() {
 				"https://www.theguardian.com/world/rss",
 				"Guardian",
 				50,
+				false,
 			)
 		},
 	})

@@ -14,6 +14,7 @@ func init() {
 				"https://www.reutersagency.com/feed/?best-topics=world&post_type=best",
 				"Reuters",
 				50,
+				false,
 			)
 		},
 	})

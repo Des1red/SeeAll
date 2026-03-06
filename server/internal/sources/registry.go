@@ -6,6 +6,8 @@ type Source struct {
 	Name  string
 	Type  string
 	Fetch func() ([]model.Post, error)
+
+	BrowserHeaders bool
 }
 
 var sources []Source

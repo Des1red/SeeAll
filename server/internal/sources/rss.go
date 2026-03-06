@@ -48,9 +48,28 @@ type genericRSS struct {
 
 var imgRegex = regexp.MustCompile(`(?i)<img[^>]+src="([^"]+)"`)
 
-func FetchRSS(url string, source string, max int) ([]model.Post, error) {
+func FetchRSS(url string, source string, max int, browser bool) ([]model.Post, error) {
 
-	resp, err := httpClient.Get(url)
+	var resp *http.Response
+	var err error
+
+	if browser {
+
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return nil, err
+		}
+
+		req.Header.Set("User-Agent", "Mozilla/5.0")
+
+		resp, err = httpClient.Do(req)
+
+	} else {
+
+		resp, err = httpClient.Get(url)
+
+	}
+
 	if err != nil {
 		return nil, err
 	}
