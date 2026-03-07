@@ -1,4 +1,4 @@
-const CACHE_NAME = "seeall-v2";
+const CACHE_NAME = "seeall-v2.1";
 const CORE_ASSETS = [
   "./",
   "./index.html",

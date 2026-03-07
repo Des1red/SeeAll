@@ -7,7 +7,8 @@ const ROUTE_ICONS = {
   daily: icons.iconNews,
   greece: icons.iconGreece,
   tech: icons.iconTech,
-  sports: icons.iconSports
+  sports: icons.iconSports,
+  finance: icons.iconFinance
 };
 
 export function renderSidebar() {

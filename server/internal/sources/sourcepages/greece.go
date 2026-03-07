@@ -3,6 +3,7 @@ package sourcepages
 import (
 	"SeeAll/internal/model"
 	"SeeAll/internal/sources"
+	"SeeAll/internal/sources/rss"
 )
 
 /* ==============================
@@ -14,7 +15,7 @@ func init() {
 		Name: "ERT News",
 		Type: model.AudienceGreece,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchRSS(
+			return rss.FetchRSS(
 				"https://www.ertnews.gr/feed/",
 				"ERT News",
 				50,
@@ -33,7 +34,7 @@ func init() {
 		Name: "Naftemporiki",
 		Type: model.AudienceGreece,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchRSS(
+			return rss.FetchRSS(
 				"https://www.naftemporiki.gr/rss",
 				"Naftemporiki",
 				50,
@@ -52,7 +53,7 @@ func init() {
 		Name: "902",
 		Type: model.AudienceGreece,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchRSS(
+			return rss.FetchRSS(
 				"https://www.902.gr/feed/recent",
 				"902",
 				50,

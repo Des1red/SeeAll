@@ -3,6 +3,7 @@ package sourcepages
 import (
 	"SeeAll/internal/model"
 	"SeeAll/internal/sources"
+	"SeeAll/internal/sources/rss"
 )
 
 func init() {
@@ -10,7 +11,7 @@ func init() {
 		Name: "ArsTechnica",
 		Type: model.AudienceTech,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchRSS(
+			return rss.FetchRSS(
 				"https://feeds.arstechnica.com/arstechnica/index",
 				"ArsTechnica",
 				50,
@@ -25,7 +26,7 @@ func init() {
 		Name: "TechCrunch",
 		Type: model.AudienceTech,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchRSS(
+			return rss.FetchRSS(
 				"https://techcrunch.com/feed/",
 				"TechCrunch",
 				50,
@@ -40,7 +41,7 @@ func init() {
 		Name: "Krebs",
 		Type: model.AudienceTech,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchRSS(
+			return rss.FetchRSS(
 				"https://krebsonsecurity.com/feed/",
 				"Krebs",
 				50,
@@ -55,7 +56,7 @@ func init() {
 		Name: "Lobsters",
 		Type: model.AudienceTech,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchJSONRSS(
+			return rss.FetchJSONRSS(
 				"https://api.rss2json.com/v1/api.json?rss_url=https://lobste.rs/rss",
 				"Lobsters",
 				50,
@@ -69,7 +70,7 @@ func init() {
 		Name: "DevTo",
 		Type: model.AudienceTech,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchRSS(
+			return rss.FetchRSS(
 				"https://dev.to/feed",
 				"DevTo",
 				50,

@@ -1,8 +1,8 @@
-package sources
+package img
 
 import "strings"
 
-func cleanImageURL(image string) string {
+func CleanImageURL(image string) string {
 
 	if image == "" {
 		return ""

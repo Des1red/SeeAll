@@ -130,3 +130,26 @@ export function iconSports(size = 16) {
     el("path", { d: "M4 12c2 3 6 3 8 0s6-3 8 0" })
   ]);
 }
+
+export function iconFinance(size = 16) {
+  return el("svg", {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": "1.8",
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round"
+  }, [
+    // chart bars
+    el("line", { x1: "4",  y1: "20", x2: "4",  y2: "14" }),
+    el("line", { x1: "9",  y1: "20", x2: "9",  y2: "10" }),
+    el("line", { x1: "14", y1: "20", x2: "14", y2: "13" }),
+    el("line", { x1: "19", y1: "20", x2: "19", y2: "6"  }),
+    // trend line
+    el("polyline", { points: "4 14 9 10 14 13 19 6" }),
+    // baseline
+    el("line", { x1: "2", y1: "20", x2: "22", y2: "20" })
+  ]);
+}

@@ -3,6 +3,7 @@ package sourcepages
 import (
 	"SeeAll/internal/model"
 	"SeeAll/internal/sources"
+	"SeeAll/internal/sources/rss"
 )
 
 func init() {
@@ -11,7 +12,7 @@ func init() {
 		Name: "Reddit",
 		Type: model.AudienceGeneral,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchJSONRSS(
+			return rss.FetchJSONRSS(
 				"https://api.rss2json.com/v1/api.json?rss_url=https://www.reddit.com/r/worldnews/.rss",
 				"Reddit",
 				50,
@@ -23,7 +24,7 @@ func init() {
 		Name: "RedditNew",
 		Type: model.AudienceGeneral,
 		Fetch: func() ([]model.Post, error) {
-			return sources.FetchJSONRSS(
+			return rss.FetchJSONRSS(
 				"https://api.rss2json.com/v1/api.json?rss_url=https://www.reddit.com/r/worldnews/new/.rss",
 				"Reddit",
 				50,

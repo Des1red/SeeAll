@@ -10,6 +10,8 @@ import (
 
 	"SeeAll/internal/model"
 	"SeeAll/internal/sources"
+	"SeeAll/internal/sources/img"
+	"SeeAll/internal/sources/normalizer"
 )
 
 const (
@@ -29,21 +31,26 @@ type hnItem struct {
 
 func isTech(title string) bool {
 	keywords := []string{
-		"AI", "LLM", "OpenAI", "GPU", "CPU",
-		"Linux", "Rust", "Go", "JavaScript",
-		"programming", "developer", "database",
-		"security", "hacker", "kernel",
+		// AI / ML
+		"AI", "LLM", "GPT", "model", "neural", "OpenAI", "Anthropic", "gemini",
+		// Languages
+		"Rust", "Go", "Python", "JavaScript", "TypeScript", "Swift", "C++", "Java",
+		// Systems
+		"Linux", "kernel", "GPU", "CPU", "compiler", "runtime", "memory",
+		// Web / Cloud
+		"API", "cloud", "docker", "kubernetes", "serverless", "database", "SQL",
+		// Dev culture
+		"programming", "developer", "open source", "GitHub", "security", "hacker",
+		"vulnerability", "exploit", "malware", "encryption",
 	}
-
+	lower := strings.ToLower(title)
 	for _, k := range keywords {
-		if strings.Contains(strings.ToLower(title), strings.ToLower(k)) {
+		if strings.Contains(lower, strings.ToLower(k)) {
 			return true
 		}
 	}
-
 	return false
 }
-
 func fetchHNFiltered(techOnly bool) ([]model.Post, error) {
 
 	resp, err := http.Get(HN_TOP)
@@ -102,10 +109,10 @@ func fetchHNFiltered(techOnly bool) ([]model.Post, error) {
 				return
 			}
 
-			post := sources.NormalizeHN(item.ID, item.Title, item.URL, item.Time, item.Score)
+			post := normalizer.NormalizeHN(item.ID, item.Title, item.URL, item.Time, item.Score)
 
 			if post.URL != "" && post.Image == "" {
-				post.Image = sources.FetchOGImage(post.URL)
+				post.Image = img.FetchOGImage(post.URL)
 			}
 
 			mu.Lock()
@@ -136,10 +143,10 @@ func init() {
 		Fetch: fetchHNTech,
 	})
 
-	sources.RegisterSource(sources.Source{
-		Name:  "HackerNews",
-		Type:  model.AudienceGeneral,
-		Fetch: fetchHNGeneral,
-	})
+	// sources.RegisterSource(sources.Source{
+	// 	Name:  "HackerNews",
+	// 	Type:  model.AudienceGeneral,
+	// 	Fetch: fetchHNGeneral,
+	// })
 
 }

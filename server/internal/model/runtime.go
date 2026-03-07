@@ -7,4 +7,10 @@ type Runtime struct {
 	DevOrigin  string
 	ProdOrigin string
 	Port       string
+
+	//creds
+	User      string
+	Pass      string
+	JWTsecret string
+	HashSalt  string
 }

@@ -16,4 +16,5 @@ const (
 	AudienceGreece  = "greece"
 	AudienceTech    = "tech"
 	AudienceSports  = "sports"
+	AudienceFinance = "finance"
 )

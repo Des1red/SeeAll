@@ -21,6 +21,21 @@ func validateEnv() {
 	apiProd := os.Getenv("API_PROD")
 	devOrigin := os.Getenv("DEV_ORIGIN")
 	prodOrigin := os.Getenv("PROD_ORIGIN")
+	user := os.Getenv("ADMIN_USER")
+	pass := os.Getenv("ADMIN_PASS")
+	secret := os.Getenv("JWT_SECRET")
+	hashsalt := os.Getenv("HASH_SALT")
+
+	if hashsalt == "" {
+		log.Fatal("ENV HASH_SALT is missing")
+	}
+
+	if secret == "" {
+		log.Fatal("ENV JWT_SECRET is missing")
+	}
+	if user == "" || pass == "" {
+		log.Fatal("ENV USER or ENV PASS is missing")
+	}
 
 	if dev != "true" && dev != "false" {
 		log.Fatal("ENV DEV must be 'true' or 'false'")
@@ -52,5 +67,9 @@ func buildRuntime() model.Runtime {
 		DevOrigin:  os.Getenv("DEV_ORIGIN"),
 		ProdOrigin: os.Getenv("PROD_ORIGIN"),
 		Port:       ":" + getPort(),
+		User:       os.Getenv("ADMIN_USER"),
+		Pass:       os.Getenv("ADMIN_PASS"),
+		JWTsecret:  os.Getenv("JWT_SECRET"),
+		HashSalt:   os.Getenv("HASH_SALT"),
 	}
 }

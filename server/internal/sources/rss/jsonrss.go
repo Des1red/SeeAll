@@ -1,10 +1,11 @@
-package sources
+package rss
 
 import (
 	"time"
 
 	"SeeAll/internal/http"
 	"SeeAll/internal/model"
+	"SeeAll/internal/sources/img"
 )
 
 type jsonRSS struct {
@@ -56,7 +57,7 @@ func FetchJSONRSS(url string, source string, max int) ([]model.Post, error) {
 			ID:     id,
 			Title:  item.Title,
 			URL:    item.Link,
-			Image:  cleanImageURL(image),
+			Image:  img.CleanImageURL(image),
 			Source: source,
 			Time:   t.Unix(),
 		}
