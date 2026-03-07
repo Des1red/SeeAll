@@ -1,5 +1,4 @@
-const CACHE_NAME = "seeall-v1";
-
+const CACHE_NAME = "seeall-v2";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -12,19 +11,36 @@ self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS))
   );
+  self.skipWaiting(); // activate immediately, don't wait for old SW to die
+});
+
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+      )
+    )
+  );
+  self.clients.claim(); // take control of all open tabs immediately
 });
 
 self.addEventListener("fetch", event => {
-
   const url = new URL(event.request.url);
-
-  // only cache same-origin requests
   if (url.origin !== location.origin) return;
 
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request);
-    })
-  );
+  // HTML — network first so deploys are seen immediately
+  if (event.request.destination === "document") {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match(event.request))
+    );
+    return;
+  }
 
+  // Assets — cache first
+  event.respondWith(
+    caches.match(event.request).then(cached => cached || fetch(event.request))
+  );
 });
