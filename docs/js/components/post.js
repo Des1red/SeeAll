@@ -1,7 +1,5 @@
 import { el } from "./dom.js";
 
-const sidebar = document.getElementById("sidebar");
-
 function stripEmojis(text) {
   return text.replace(/\p{Extended_Pictographic}/gu, "");
 }
@@ -29,13 +27,7 @@ export function postItem(post) {
     el("a", {
       href: post.url,
       target: "_blank",
-      text: stripEmojis(post.title),
-      onclick: (e) => {
-        if (sidebar?.classList.contains("open")) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      }
+      text: stripEmojis(post.title)
     })
   );
 

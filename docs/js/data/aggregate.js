@@ -1,12 +1,12 @@
 import { emitNetworkError, emitAPIError } from "../errors/errors.js";
-
-const API_BASE = "https://seeall.onrender.com";
+import { getAPI } from "../bootstrap/config.js";
 
 export async function fetchByType(type) {
+
   let resp;
 
   try {
-    resp = await fetch(`${API_BASE}/news/${type}`);
+    resp = await fetch(`${getAPI()}/${type}`);
   } catch {
     emitNetworkError("Unable to reach backend.");
     return null;

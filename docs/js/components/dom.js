@@ -23,6 +23,7 @@ export function page(title) {
 
   return { page, body };
 }
+
 export function el(tag, attrs = null, children = null) {
 
   /* ---------- FAST SVG CHECK ---------- */

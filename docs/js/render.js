@@ -6,9 +6,6 @@ let cleanup = null;
 
 export async function render(view) {
 
-  const sidebar = document.getElementById("sidebar");
-  if (sidebar) sidebar.classList.remove("open");
-
   if (cleanup) {
     cleanup();
     cleanup = null;

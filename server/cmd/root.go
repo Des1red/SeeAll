@@ -2,15 +2,14 @@ package cmd
 
 import (
 	"SeeAll/internal/server"
-	"os"
 )
 
 func Execute() {
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	loadEnv()
+	validateEnv()
 
-	server.Start(":" + port)
+	runtime := buildRuntime()
+
+	server.Start(runtime)
 }

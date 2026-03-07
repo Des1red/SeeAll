@@ -1,3 +1,9 @@
 import { bootstrap } from "./bootstrap/bootstrap.js";
+import { loadConfig } from "./bootstrap/config.js";
 
-bootstrap();
+async function main() {
+  await loadConfig();
+  bootstrap();
+}
+
+main();
