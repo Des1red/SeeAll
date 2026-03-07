@@ -1,4 +1,4 @@
-const CACHE_NAME = "seeall-v2.2";
+const CACHE_NAME = "seeall-v3";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -9,9 +9,10 @@ const CORE_ASSETS = [
 
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS))
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(CORE_ASSETS))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting(); // activate immediately, don't wait for old SW to die
 });
 
 self.addEventListener("activate", event => {
