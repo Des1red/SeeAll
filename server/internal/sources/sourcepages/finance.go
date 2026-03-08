@@ -44,18 +44,6 @@ func init() {
 	})
 
 	sources.RegisterSource(sources.Source{
-		Name: "Reuters Business",
-		Type: model.AudienceFinance,
-		Fetch: func() ([]model.Post, error) {
-			return rss.FetchRSS(
-				"https://feeds.reuters.com/reuters/businessNews",
-				"Reuters Business",
-				50, false,
-			)
-		},
-	})
-
-	sources.RegisterSource(sources.Source{
 		Name: "CNBC Finance",
 		Type: model.AudienceFinance,
 		Fetch: func() ([]model.Post, error) {

@@ -2,6 +2,7 @@ package rss
 
 import (
 	"SeeAll/internal/model"
+	"SeeAll/internal/sources/img"
 	"SeeAll/internal/sources/normalizer"
 	"encoding/xml"
 	"time"
@@ -37,7 +38,7 @@ type atomFeed struct {
 }
 
 func parseAtom(entries []atomEntry, source string, max int) []model.Post {
-
+	model.Usage.Atom++
 	var posts []model.Post
 
 	for i, e := range entries {
@@ -69,12 +70,9 @@ func parseAtom(entries []atomEntry, source string, max int) []model.Post {
 		)
 
 		post.Image = extractAtomImage(e)
-		// if post.Image == "" {
-		// 	post.Image = img.FetchOGImage(link)
-		// }
-
 		posts = append(posts, post)
 	}
+	img.EnrichWithOGImages(posts)
 
 	return posts
 }

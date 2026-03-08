@@ -57,7 +57,9 @@ func Start(runtime model.Runtime) {
 	// routes
 	mux.HandleFunc("/news/", handlers.News)
 	mux.HandleFunc("/config", handlers.ConfigHandler(runtime))
-
+	mux.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
 	// admin routes
 	mux.HandleFunc("/admin/login", handlers.AdminLogin(runtime))
 	mux.HandleFunc("/admin/logout", handlers.AdminLogout)

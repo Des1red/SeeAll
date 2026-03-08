@@ -1,6 +1,7 @@
 package img
 
 import (
+	"SeeAll/internal/model"
 	"io"
 	"net/http"
 	"regexp"
@@ -42,7 +43,7 @@ var (
 	ogCacheMu sync.RWMutex
 )
 
-func FetchOGImage(url string) string {
+func fetchOGImage(url string) string {
 	ogCacheMu.RLock()
 	if v, ok := ogCache[url]; ok {
 		ogCacheMu.RUnlock()
@@ -50,11 +51,30 @@ func FetchOGImage(url string) string {
 	}
 	ogCacheMu.RUnlock()
 
-	result := fetchOGImageUncached(url) // your existing logic
+	result := fetchOGImageUncached(url)
 
 	ogCacheMu.Lock()
 	ogCache[url] = result
 	ogCacheMu.Unlock()
 
 	return result
+}
+
+func EnrichWithOGImages(posts []model.Post) {
+	var wg sync.WaitGroup
+
+	for i := range posts {
+		if posts[i].Image != "" {
+			continue
+		}
+
+		wg.Add(1)
+
+		go func(i int, url string) {
+			defer wg.Done()
+			posts[i].Image = fetchOGImage(url)
+		}(i, posts[i].URL)
+	}
+
+	wg.Wait()
 }

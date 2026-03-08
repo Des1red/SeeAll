@@ -1,9 +1,12 @@
 package cmd
 
 import (
+	"SeeAll/internal/devmode"
 	"SeeAll/internal/model"
+	"SeeAll/internal/sources"
 	"log"
 	"os"
+	"sync"
 )
 
 func getPort() string {
@@ -72,4 +75,25 @@ func buildRuntime() model.Runtime {
 		JWTsecret:  os.Getenv("JWT_SECRET"),
 		HashSalt:   os.Getenv("HASH_SALT"),
 	}
+}
+
+func startPrewarm() {
+	devmode.SetPrewarming(true)
+	defer devmode.SetPrewarming(false)
+
+	categories := []string{"tech", "finance", "general", "daily", "sports"}
+
+	var wg sync.WaitGroup
+	for _, t := range categories {
+		wg.Add(1)
+		go func(t string) {
+			defer wg.Done()
+			sources.FetchByType(t)
+			log.Printf("prewarm done: %s", t)
+		}(t)
+	}
+
+	wg.Wait()
+	model.Usage = model.FuncUsage{} // ← zero out after prewarm
+	log.Println("prewarm complete")
 }

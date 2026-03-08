@@ -138,16 +138,4 @@ func init() {
 			)
 		},
 	})
-
-	sources.RegisterSource(sources.Source{
-		Name: "Hakai Magazine",
-		Type: model.AudienceGeneral,
-		Fetch: func() ([]model.Post, error) {
-			return rss.FetchRSS(
-				"https://hakaimagazine.com/feed/",
-				"Hakai Magazine",
-				50, false,
-			)
-		},
-	})
 }

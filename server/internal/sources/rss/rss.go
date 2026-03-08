@@ -48,7 +48,7 @@ type genericRSS struct {
 }
 
 func parseRSS(items []rssItem, source string, max int) []model.Post {
-
+	model.Usage.RSS++
 	var posts []model.Post
 
 	for i, item := range items {
@@ -71,11 +71,6 @@ func parseRSS(items []rssItem, source string, max int) []model.Post {
 			id = item.Link
 		}
 
-		image := extractImage(item)
-		if image == "" {
-			image = img.FetchOGImage(item.Link)
-		}
-
 		post := normalizer.NormalizeNews(
 			id,
 			item.Title,
@@ -84,10 +79,13 @@ func parseRSS(items []rssItem, source string, max int) []model.Post {
 			t.Unix(),
 		)
 
-		post.Image = image
+		post.Image = extractImage(item) // inline only, no HTTP
 
 		posts = append(posts, post)
 	}
+
+	// Fan out OG fetches only for posts that need it
+	img.EnrichWithOGImages(posts)
 
 	return posts
 }

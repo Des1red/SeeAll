@@ -3,7 +3,9 @@ package sources
 import (
 	"sort"
 	"sync"
+	"time"
 
+	"SeeAll/internal/devmode"
 	"SeeAll/internal/model"
 )
 
@@ -26,7 +28,9 @@ func FetchByType(t string) ([]model.Post, error) {
 		go func(src Source) {
 			defer wg.Done()
 
+			start := time.Now()
 			posts, err := src.Fetch()
+			devmode.RecordSource(src.Name, time.Since(start), len(posts))
 			if err != nil || len(posts) == 0 {
 				return
 			}

@@ -6,6 +6,7 @@ import (
 	"SeeAll/internal/http"
 	"SeeAll/internal/model"
 	"SeeAll/internal/sources/img"
+	"SeeAll/internal/sources/normalizer"
 )
 
 type jsonRSS struct {
@@ -24,9 +25,9 @@ type jsonRSS struct {
 }
 
 func FetchJSONRSS(url string, source string, max int) ([]model.Post, error) {
+	model.Usage.JSONRSS++
 
 	var data jsonRSS
-
 	err := http.FetchJSON(url, &data)
 	if err != nil {
 		return nil, err
@@ -42,25 +43,25 @@ func FetchJSONRSS(url string, source string, max int) ([]model.Post, error) {
 
 		t, _ := time.Parse(time.RFC1123Z, item.PubDate)
 
-		image := item.Thumbnail
-
-		if image == "" {
-			image = item.Enclosure.Link
-		}
-
 		id := item.GUID
 		if id == "" {
 			id = item.Link
 		}
 
-		post := model.Post{
-			ID:     id,
-			Title:  item.Title,
-			URL:    item.Link,
-			Image:  img.CleanImageURL(image),
-			Source: source,
-			Time:   t.Unix(),
+		image := item.Thumbnail
+		if image == "" {
+			image = item.Enclosure.Link
 		}
+
+		post := normalizer.NormalizeNews(
+			id,
+			item.Title,
+			item.Link,
+			source,
+			t.Unix(),
+		)
+
+		post.Image = img.CleanImageURL(image)
 
 		if post.Title == "" || post.Time == 0 {
 			continue
@@ -69,5 +70,7 @@ func FetchJSONRSS(url string, source string, max int) ([]model.Post, error) {
 		posts = append(posts, post)
 	}
 
+	// Fan out OG fetches only for posts that need it
+	img.EnrichWithOGImages(posts)
 	return posts, nil
 }

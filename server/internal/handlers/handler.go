@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"time"
 
+	"SeeAll/internal/devmode"
 	"SeeAll/internal/sources"
 )
 
@@ -13,7 +15,7 @@ func News(w http.ResponseWriter, r *http.Request) {
 	if !validateGET(w, r) {
 		return
 	}
-
+	start := time.Now()
 	// /news/greece → greece
 	t := strings.TrimPrefix(r.URL.Path, "/news/")
 
@@ -30,4 +32,5 @@ func News(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(posts)
+	devmode.ShowFuncMetrics(t, posts, time.Since(start))
 }

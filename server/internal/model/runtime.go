@@ -14,3 +14,11 @@ type Runtime struct {
 	JWTsecret string
 	HashSalt  string
 }
+
+type FuncUsage struct {
+	RSS     int
+	JSONRSS int
+	Atom    int
+}
+
+var Usage FuncUsage
