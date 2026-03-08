@@ -13,7 +13,7 @@ import (
 
 func metricsMiddleware(runtime model.Runtime, next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasPrefix(r.URL.Path, "/admin") {
+		if strings.HasPrefix(r.URL.Path, "/admin") || strings.HasPrefix(r.URL.Path, "/config") || strings.HasPrefix(r.URL.Path, "/ping") {
 			next.ServeHTTP(w, r)
 			return
 		}
